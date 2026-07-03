@@ -15,7 +15,8 @@
 ⚙️ Servis Optimizasyonu: Arka planda RAM ve CPU tüketen 29 adet kritik olmayan sistem servisini devre dışı bırakır.
 
 📦 Otomatik Paket Yönetimi: Eğer sistemde yoksa WinGet aracını otomatik kurur; ardından tarayıcı, terminal araçları, oyun ve programlar için zorunlu olan runtime paketlerini (DirectX, Visual C++, .NET) sessiz modda yükler. 
-"a.config "
+
+                  "config 
 "Move the file to the user folder" (Dosyayı kullanıcı klasörüne taşıyın)
 
 "Place the file inside the user folder" (Dosyayı kullanıcı klasörünün içine yerleştirin)
