@@ -12,6 +12,7 @@ $Banner = @"
            https://github.com/yilmazbakar84-lang/WinHafiflet
 "@
 
+
 Write-Host $Banner -ForegroundColor Magenta
 
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
