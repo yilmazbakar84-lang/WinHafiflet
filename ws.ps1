@@ -193,6 +193,7 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
         "Python.Python.3.12", "VideoLAN.VLC", "Mojang.MinecraftLauncher", "M2Team.NanaZip",
         "Microsoft.DirectX", "abbodi1406.vcredist", "Microsoft.XNARedist", "Microsoft.DotNet.DesktopRuntime.8",
         "th-ch.YouTubeMusic", "9P8LTPGCBZXD", "Anthropic.Claude"
+        "WhatsApp.WhatsApp", "Suwayomi.Suwayomi-Server", "Notepad++.Notepad++"
     )
 
     foreach ($app in $apps) {
