@@ -12,7 +12,6 @@ $Banner = @"
            https://github.com/yilmazbakar84-lang/WinHafiflet
 "@
 
-
 Write-Host $Banner -ForegroundColor Magenta
 
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
@@ -201,7 +200,13 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
         # FIX: "winget install" komutunda "--upgrade" diye bir parametre yok; bu satir orijinalde
         # winget'in hata vermesine / hicbir sey kurmamasina yol aciyordu.
         # -e (--exact) eklendi ki $app tam olarak eslessin ve interaktif secim listesi cikmasin.
-        winget install --id $app -e --silent --accept-package-agreements --accept-source-agreements
+        if ($app -eq "9P8LTPGCBZXD") {
+            # FIX: Bu bir Microsoft Store urun ID'si, kaynagi acikca belirtiyoruz ki
+            # winget dogru kataloga baksin ve "bulunamadi" hatasi vermesin.
+            winget install --id $app -e --source msstore --silent --accept-package-agreements --accept-source-agreements
+        } else {
+            winget install --id $app -e --silent --accept-package-agreements --accept-source-agreements
+        }
     }
 } else {
     Write-Warning "WinGet bulunamadigi icin 6. adim (uygulama kurulumu) atlandi."
