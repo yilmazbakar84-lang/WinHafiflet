@@ -192,7 +192,7 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
         "ImputNet.Helium", "Brave.Brave", "Discord.Discord", "Microsoft.VisualStudioCode",
         "Python.Python.3.12", "VideoLAN.VLC", "Mojang.MinecraftLauncher", "M2Team.NanaZip",
         "Microsoft.DirectX", "abbodi1406.vcredist", "Microsoft.XNARedist", "Microsoft.DotNet.DesktopRuntime.8",
-        "th-ch.YouTubeMusic", "9P8LTPGCBZXD"
+        "th-ch.YouTubeMusic", "9P8LTPGCBZXD", "Anthropic.Claude"
     )
 
     foreach ($app in $apps) {
