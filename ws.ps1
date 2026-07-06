@@ -12,7 +12,6 @@ $Banner = @"
            https://github.com/yilmazbakar84-lang/WinHafiflet
 "@
 
-
 Write-Host $Banner -ForegroundColor Magenta
 
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
@@ -25,7 +24,7 @@ Write-Host "=== Gelismis Windows Temizlik, Ozellestirme ve Kurulum Sistemi Basla
 # ----------------------------------------------------
 # 1. ADIM: TELEMETRI, REKLAM, GOREV CUBUGU VE SEARCH AYARLARI
 # ----------------------------------------------------
-Write-Host "`n[1/8] Telemetri, Saat Ayarlari ve Gelismis Arama Yapilandiriliyor..." -ForegroundColor Yellow
+Write-Host "`n[1/16] Telemetri, Saat Ayarlari ve Gelismis Arama Yapilandiriliyor..." -ForegroundColor Yellow
 
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSecondsInSystemClock" -Value 1 -ErrorAction SilentlyContinue
 
@@ -44,7 +43,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search
 # ----------------------------------------------------
 # 2. ADIM: KLASOR ICINDEKI YEREL DUVAR KAGIDINI AYARLAMA
 # ----------------------------------------------------
-Write-Host "`n[2/8] Klasor Icindeki Yerel Duvar Kagidi ve Kilit Ekrani Ayarlaniyor..." -ForegroundColor Yellow
+Write-Host "`n[2/16] Klasor Icindeki Yerel Duvar Kagidi ve Kilit Ekrani Ayarlaniyor..." -ForegroundColor Yellow
 
 # FIX: $PSScriptRoot, script "iex" ile (dosyaya kaydedilmeden) calistirilirsa bos kalir.
 # Bu durumda script klasorunu mevcut calisma dizinine dusuruyoruz ki hata vermesin.
@@ -85,7 +84,7 @@ if (Test-Path $WallpaperPath) {
 # ----------------------------------------------------
 # 3. ADIM: BELIRTILEN TUM SERVISLERI DEVRE DISI BIRAKMA
 # ----------------------------------------------------
-Write-Host "`n[3/8] Istenen Tum Kritik Servisler DEVRE DISI Birakiliyor..." -ForegroundColor Yellow
+Write-Host "`n[3/16] Istenen Tum Kritik Servisler DEVRE DISI Birakiliyor..." -ForegroundColor Yellow
 
 $DisabledServices = @(
     "DiagTrack", "dmwappushservice", "WSearch", "SysMain", "lfsvc", "CscService",
@@ -110,7 +109,7 @@ foreach ($Service in $DisabledServices) {
 # ----------------------------------------------------
 # 4. ADIM: GENISLETILMIS BLOATWARE TEMIZLIGI
 # ----------------------------------------------------
-Write-Host "`n[4/8] Listelenen Bloatware ve Magaza Uygulamalari Siliniyor..." -ForegroundColor Yellow
+Write-Host "`n[4/16] Listelenen Bloatware ve Magaza Uygulamalari Siliniyor..." -ForegroundColor Yellow
 
 $BloatwareList = @(
     "*Microsoft.3DBuilder*", "*Microsoft.549981C3F5F10*", "*Microsoft.Asphalt8Airborne*",
@@ -149,7 +148,7 @@ Write-Host "Bloatware listesindeki tum uygulamalar temizlendi." -ForegroundColor
 # ----------------------------------------------------
 # 5. ADIM: WINGET VAR MI KONTROL ET VE BASLAT
 # ----------------------------------------------------
-Write-Host "`n[5/8] WinGet Varlik Kontrolu Yapiliyor..." -ForegroundColor Yellow
+Write-Host "`n[5/16] WinGet Varlik Kontrolu Yapiliyor..." -ForegroundColor Yellow
 
 $WingetCheck = Get-Command winget -ErrorAction SilentlyContinue
 
@@ -185,7 +184,7 @@ Write-Host "WinGet kontrolu tamamlandi." -ForegroundColor Green
 # ----------------------------------------------------
 # 6. ADIM: OTOMATIK UYGULAMA VE RUNTIME YUKLEME (WINGET)
 # ----------------------------------------------------
-Write-Host "`n[6/8] Istedigin Uygulamalar, Windows Terminal ve Calisma Zamani Paketleri Yukleniyor..." -ForegroundColor Yellow
+Write-Host "`n[6/16] Istedigin Uygulamalar, Windows Terminal ve Calisma Zamani Paketleri Yukleniyor..." -ForegroundColor Yellow
 
 if (Get-Command winget -ErrorAction SilentlyContinue) {
     $apps = @(
@@ -199,12 +198,7 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
 
     foreach ($app in $apps) {
         Write-Host "Kurulmaya calisiliyor: $app" -ForegroundColor Yellow
-        # FIX: "winget install" komutunda "--upgrade" diye bir parametre yok; bu satir orijinalde
-        # winget'in hata vermesine / hicbir sey kurmamasina yol aciyordu.
-        # -e (--exact) eklendi ki $app tam olarak eslessin ve interaktif secim listesi cikmasin.
         if ($app -eq "9P8LTPGCBZXD") {
-            # FIX: Bu bir Microsoft Store urun ID'si, kaynagi acikca belirtiyoruz ki
-            # winget dogru kataloga baksin ve "bulunamadi" hatasi vermesin.
             winget install --id $app -e --source msstore --silent --accept-package-agreements --accept-source-agreements
         } else {
             winget install --id $app -e --silent --accept-package-agreements --accept-source-agreements
@@ -217,7 +211,7 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
 # ----------------------------------------------------
 # 7. ADIM: WINDOWS DEFENDER'I DEVRE DISI BIRAKMA (BEST-EFFORT)
 # ----------------------------------------------------
-Write-Host "`n[7/8] Windows Defender Devre Disi Birakilmaya Calisiliyor..." -ForegroundColor Yellow
+Write-Host "`n[7/16] Windows Defender Devre Disi Birakilmaya Calisiliyor..." -ForegroundColor Yellow
 Write-Host "NOT: Defender'i tamamen 'silmek' mumkun degil, sadece devre disi birakilabilir." -ForegroundColor DarkYellow
 Write-Host "Tamper Protection (Kurcalamaya Karsi Koruma) aciksa bu adim hicbir ise yaramaz." -ForegroundColor DarkYellow
 
@@ -249,7 +243,7 @@ try {
 # ----------------------------------------------------
 # 8. ADIM: MICROSOFT EDGE'I KALDIRMA (BEST-EFFORT)
 # ----------------------------------------------------
-Write-Host "`n[8/8] Microsoft Edge Kaldirilmaya Calisiliyor..." -ForegroundColor Yellow
+Write-Host "`n[8/16] Microsoft Edge Kaldirilmaya Calisiliyor..." -ForegroundColor Yellow
 Write-Host "NOT: Edge kaldirma resmi olarak desteklenmez, Windows Update onu geri yukleyebilir." -ForegroundColor DarkYellow
 
 try {
@@ -281,6 +275,198 @@ try {
 } catch {
     Write-Warning "Microsoft Edge kaldirilamadi ($($_.Exception.Message)). Bu adim atlanip devam ediliyor."
 }
+
+# ----------------------------------------------------
+# 9. ADIM: EK GIZLILIK VE TELEMETRI AYARLARI
+# ----------------------------------------------------
+Write-Host "`n[9/16] Ek Gizlilik, Konum ve Tanilama Ayarlari Uygulaniyor..." -ForegroundColor Yellow
+
+function Set-RegValue {
+    param($Path, $Name, $Value, $Type = "DWord")
+    if (-not (Test-Path $Path)) {
+        New-Item -Path $Path -Force -ErrorAction SilentlyContinue | Out-Null
+    }
+    Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -ErrorAction SilentlyContinue
+}
+
+# Etkinlik Gecmisi (Activity Feed / Timeline)
+Set-RegValue "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" "EnableActivityFeed" 0
+Set-RegValue "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" "PublishUserActivities" 0
+Set-RegValue "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" "UploadUserActivities" 0
+
+# Tuketici ozellikleri ve gorev cubugu "End Task"
+Set-RegValue "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings" "TaskbarEndTask" 1
+
+# Konum, sensor ve harita otomatik guncelleme izinleri
+Set-RegValue "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" "Value" "Deny" "String"
+Set-RegValue "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" "SensorPermissionState" 0
+Set-RegValue "HKLM:\SYSTEM\Maps" "AutoUpdateEnabled" 0
+
+# Reklam kimligi, kisisellestirilmis deneyimler ve el yazisi/konusma toplama
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Privacy" "TailoredExperiencesWithDiagnosticDataEnabled" 0
+Set-RegValue "HKCU:\Software\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" "HasAccepted" 0
+Set-RegValue "HKCU:\Software\Microsoft\Input\TIPC" "Enabled" 0
+Set-RegValue "HKCU:\Software\Microsoft\InputPersonalization" "RestrictImplicitInkCollection" 1
+Set-RegValue "HKCU:\Software\Microsoft\InputPersonalization" "RestrictImplicitTextCollection" 1
+Set-RegValue "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" "HarvestContacts" 0
+Set-RegValue "HKCU:\Software\Microsoft\Personalization\Settings" "AcceptedPrivacyPolicy" 0
+
+# Telemetri seviyesi ve program izleme / SIUF anketleri
+Set-RegValue "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "AllowTelemetry" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Start_TrackProgs" 0
+Set-RegValue "HKCU:\Software\Microsoft\Siuf\Rules" "NumberOfSIUFInPeriod" 0
+
+Write-Host "Ek gizlilik ve telemetri ayarlari uygulandi." -ForegroundColor Green
+
+# ----------------------------------------------------
+# 10. ADIM: BITLOCKER'I DEVRE DISI BIRAKMA (BEST-EFFORT)
+# ----------------------------------------------------
+Write-Host "`n[10/16] BitLocker Sur/Kapa Devre Disi Birakiliyor..." -ForegroundColor Yellow
+
+try {
+    $bitlockerVolume = Get-BitLockerVolume -MountPoint $env:SystemDrive -ErrorAction Stop
+    if ($bitlockerVolume.ProtectionStatus -eq "On") {
+        Disable-BitLocker -MountPoint $env:SystemDrive -ErrorAction Stop
+        Write-Host "BitLocker $($env:SystemDrive) icin devre disi birakildi (sifre cozme islemi arka planda devam edebilir)." -ForegroundColor Green
+    } else {
+        Write-Host "BitLocker zaten kapali gorunuyor, islem yapilmadi." -ForegroundColor Green
+    }
+} catch {
+    Write-Warning "BitLocker durumu okunamadi veya devre disi birakilamadi (modul bulunmuyor olabilir). Bu adim atlanip devam ediliyor."
+}
+Set-RegValue "HKLM:\SYSTEM\CurrentControlSet\Control\BitLocker" "PreventDeviceEncryption" 1
+
+# ----------------------------------------------------
+# 11. ADIM: WINDOWS AI / COPILOT VE NOTEPAD AI OZELLIKLERINI KAPATMA
+# ----------------------------------------------------
+Write-Host "`n[11/16] Windows AI Bilesenleri (Copilot vb.) ve Notepad AI Ozellikleri Kapatiliyor..." -ForegroundColor Yellow
+
+Set-RegValue "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" "SettingsPageVisibility" "hide:aicomponents" "String"
+Set-RegValue "HKLM:\SOFTWARE\Policies\WindowsNotepad" "DisableAIFeatures" 1
+Set-RegValue "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" "TurnOffWindowsCopilot" 1
+
+try {
+    Get-AppxPackage -Name "*Microsoft.Windows.Ai.Copilot*" -AllUsers -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue
+} catch {
+    Write-Warning "Copilot uygulama paketi kaldirilamadi, bu adim atlaniyor."
+}
+Write-Host "Windows AI / Copilot ayarlari uygulandi." -ForegroundColor Green
+
+# ----------------------------------------------------
+# 12. ADIM: EK BLOATWARE VE UYGULAMA KALDIRMA (Xbox, Teams, Paint vb.)
+# ----------------------------------------------------
+Write-Host "`n[12/16] Ek Sistem Uygulamalari (Xbox, Teams, Feedback Hub vb.) Kaldiriliyor..." -ForegroundColor Yellow
+
+$ExtraAppxList = @(
+    "Microsoft.WindowsFeedbackHub", "Microsoft.BingNews", "Microsoft.BingSearch", "Microsoft.BingWeather",
+    "Clipchamp.Clipchamp", "Microsoft.Todos", "Microsoft.PowerAutomateDesktop",
+    "Microsoft.MicrosoftSolitaireCollection", "Microsoft.WindowsSoundRecorder", "Microsoft.MicrosoftStickyNotes",
+    "Microsoft.Windows.DevHome", "Microsoft.OutlookForWindows", "Microsoft.WindowsAlarms",
+    "Microsoft.StartExperiencesApp", "Microsoft.GetHelp", "Microsoft.ZuneMusic",
+    "MicrosoftCorporationII.QuickAssist", "MSTeams",
+    "Microsoft.XboxIdentityProvider", "Microsoft.XboxSpeechToTextOverlay", "Microsoft.GamingApp",
+    "Microsoft.Xbox.TCUI", "Microsoft.XboxGamingOverlay"
+)
+
+foreach ($App in $ExtraAppxList) {
+    Write-Host "Kaldiriliyor: $App" -ForegroundColor Red
+    Get-AppxPackage -Name $App -AllUsers -ErrorAction SilentlyContinue | Remove-AppxPackage -ErrorAction SilentlyContinue
+    Get-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Where-Object { $_.PackageName -like "*$App*" } | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
+}
+Write-Host "Ek uygulama temizligi tamamlandi." -ForegroundColor Green
+
+# ----------------------------------------------------
+# 13. ADIM: ARAYUZ VE GORUNUM INCE AYARLARI (Performans / Sadelik)
+# ----------------------------------------------------
+Write-Host "`n[13/16] Gorsel Efektler, Gorev Cubugu ve 'Bu Bilgisayar' Klasorleri Duzenleniyor..." -ForegroundColor Yellow
+
+Set-RegValue "HKCU:\Control Panel\Desktop" "DragFullWindows" 0 "String"
+Set-RegValue "HKCU:\Control Panel\Desktop" "MenuShowDelay" 200 "String"
+Set-RegValue "HKCU:\Control Panel\Desktop\WindowMetrics" "MinAnimate" 0 "String"
+Set-RegValue "HKCU:\Control Panel\Keyboard" "KeyboardDelay" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ListviewAlphaSelect" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ListviewShadow" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarAnimations" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" "VisualFXSetting" 3
+Set-RegValue "HKCU:\Software\Microsoft\Windows\DWM" "EnableAeroPeek" 0
+
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarMn" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowTaskViewButton" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "SearchboxTaskbarMode" 0
+
+Set-RegValue "HKCU:\Software\Classes\CLSID\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}" "System.IsPinnedToNameSpaceTree" 0
+Set-RegValue "HKCU:\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" "System.IsPinnedToNameSpaceTree" 0
+Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "LaunchTo" 1
+
+Set-RegValue "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" "AppCaptureEnabled" 0
+
+Write-Host "Arayuz ince ayarlari uygulandi (bazi degisikliklerin gorunmesi icin oturum kapatilip acilmasi gerekebilir)." -ForegroundColor Green
+
+# ----------------------------------------------------
+# 14. ADIM: KLASIK (WINDOWS 10 TARZI) SAG TIK MENUSUNU GERI GETIRME
+# ----------------------------------------------------
+Write-Host "`n[14/16] Klasik Sag Tik Baglam Menusu Geri Getiriliyor..." -ForegroundColor Yellow
+
+try {
+    $classicMenuPath = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
+    if (-not (Test-Path $classicMenuPath)) {
+        New-Item -Path $classicMenuPath -Force -ErrorAction Stop | Out-Null
+    }
+    Set-ItemProperty -Path $classicMenuPath -Name "(Default)" -Value "" -ErrorAction Stop
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+    Start-Process explorer.exe
+    Write-Host "Klasik sag tik menusu etkinlestirildi (Windows Gezgini yeniden baslatildi)." -ForegroundColor Green
+} catch {
+    Write-Warning "Klasik sag tik menusu ayarlanamadi. Bu adim atlanip devam ediliyor."
+}
+
+# ----------------------------------------------------
+# 15. ADIM: ONEDRIVE'I KALDIRMA (BEST-EFFORT)
+# ----------------------------------------------------
+Write-Host "`n[15/16] OneDrive Kaldiriliyor..." -ForegroundColor Yellow
+Write-Host "Uninstalling OneDrive..." -ForegroundColor Yellow
+
+try {
+    Stop-Process -Name "OneDrive" -Force -ErrorAction SilentlyContinue
+    Start-Sleep -Seconds 2
+
+    $oneDriveSetup = "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
+    if (-not (Test-Path $oneDriveSetup)) {
+        $oneDriveSetup = "$env:SystemRoot\System32\OneDriveSetup.exe"
+    }
+
+    if (Test-Path $oneDriveSetup) {
+        Start-Process $oneDriveSetup -ArgumentList "/uninstall" -Wait -ErrorAction Stop
+        Write-Host "OneDrive kaldirma komutu calistirildi." -ForegroundColor Green
+    } else {
+        throw "OneDriveSetup.exe bulunamadi."
+    }
+
+    Remove-Item -Path "$env:USERPROFILE\OneDrive" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Recurse -Force -ErrorAction SilentlyContinue
+
+    Set-RegValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" "DisableFileSyncNGSC" 1
+} catch {
+    Write-Warning "OneDrive kaldirilamadi ($($_.Exception.Message)). Bu adim atlanip devam ediliyor."
+}
+
+# ----------------------------------------------------
+# 16. ADIM: WINDOWS "HAKKINDA" DESTEK BILGILERINI AYARLAMA (OEM BILGISI)
+# ----------------------------------------------------
+Write-Host "`n[16/16] Windows Ayarlari > Sistem > Hakkinda Kismindaki Destek Bilgileri Ayarlaniyor..." -ForegroundColor Yellow
+
+$OemInfoPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"
+Set-RegValue $OemInfoPath "Manufacturer" "WinHafiflet" "String"
+Set-RegValue $OemInfoPath "Model" "WinHafiflet - Windows Temizlik & Kurulum Araci" "String"
+Set-RegValue $OemInfoPath "SupportURL" "https://github.com/yilmazbakar84-lang/WinHafiflet" "String"
+Set-RegValue $OemInfoPath "SupportPhone" "" "String"
+Set-RegValue $OemInfoPath "SupportHours" "" "String"
+
+Write-Host "Destek bilgileri ayarlandi (program adi: WinHafiflet, baglanti: GitHub sayfaniz)." -ForegroundColor Green
+Write-Host "Kontrol etmek icin: Ayarlar > Sistem > Hakkinda > Windows Belirtimleri > Destek Al" -ForegroundColor DarkYellow
 
 Write-Host "`n=== Tum Islemler Basariyla Tamamlandi! ===" -ForegroundColor Green
 Write-Host "Sistemin tamamen hafiflemesi ve degisikliklerin tam oturmasi icin bilgisayari YENIDEN BASLATMAYI unutma!" -ForegroundColor Cyan
