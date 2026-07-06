@@ -460,7 +460,7 @@ Write-Host "`n[16/16] Windows Ayarlari > Sistem > Hakkinda Kismindaki Destek Bil
 
 $OemInfoPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"
 Set-RegValue $OemInfoPath "Manufacturer" "WinHafiflet" "String"
-Set-RegValue $OemInfoPath "Model" "WinHafiflet - Windows Temizlik & Kurulum Araci" "String"
+Set-RegValue $OemInfoPath "Model" "WinHafiflet" "String"
 Set-RegValue $OemInfoPath "SupportURL" "https://github.com/yilmazbakar84-lang/WinHafiflet" "String"
 Set-RegValue $OemInfoPath "SupportPhone" "" "String"
 Set-RegValue $OemInfoPath "SupportHours" "" "String"
